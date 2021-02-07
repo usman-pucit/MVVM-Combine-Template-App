@@ -1,14 +1,14 @@
 //
-//  LoginModel.swift
+//  PhotosModel.swift
 //  TemplateApp
 //
-//  Created by Muhammad Usman on 06/02/2021.
+//  Created by Muhammad Usman on 07/02/2021.
 //  
 //
 
 import Foundation
 
-struct LoginModel: Codable {
+struct PhotosModel: Codable {
     
     // MARK: - Model Keys
     

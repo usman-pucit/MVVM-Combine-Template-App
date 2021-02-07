@@ -1,19 +1,19 @@
 //
-//  LoginUseCase.swift
+//  PhotosUseCase.swift
 //  TemplateApp
 //
-//  Created by Muhammad Usman on 06/02/2021.
+//  Created by Muhammad Usman on 07/02/2021.
 //  
 //
 
 import Combine
 import Foundation
 
-protocol LoginUseCaseType {
-    func request<T: Decodable>(_ request: Request<T>) -> AnyPublisher<Result<T, APIError>, Never>
+protocol PhotosUseCaseType {
+    func request(_ request: Request) -> AnyPublisher<Result<PhotosModel, APIError>, Never>
 }
 
-class LoginUseCase {
+class PhotosUseCase {
     // MARK: -  Properties
 
     var apiClient: APIClientType
@@ -27,8 +27,8 @@ class LoginUseCase {
 
 // MARK: - Extension
 
-extension LoginUseCase: LoginUseCaseType {
-    func request<T: Decodable>(_ request: Request<T>) -> AnyPublisher<Result<T, APIError>, Never> {
+extension PhotosUseCase: PhotosUseCaseType {
+    func request(_ request: Request) -> AnyPublisher<Result<PhotosModel, APIError>, Never> {
         return apiClient
             .execute(request)
             .subscribe(on: Scheduler.backgroundWorkScheduler)

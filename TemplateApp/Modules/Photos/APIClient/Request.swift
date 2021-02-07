@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-struct Request<T: Decodable> {
+struct Request {
     let url: URL
     let parameters: [String: CustomStringConvertible]
     var request: URLRequest? {

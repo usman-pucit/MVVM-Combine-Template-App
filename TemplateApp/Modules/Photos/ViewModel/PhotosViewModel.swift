@@ -1,25 +1,25 @@
 //
-//  LoginViewModel.swift
+//  PhotosViewModel.swift
 //  TemplateApp
 //
-//  Created by Muhammad Usman on 06/02/2021.
+//  Created by Muhammad Usman on 07/02/2021.
 //  
 //
 
 import Combine
 import Foundation
 
-protocol LoginViewModelType {
-    func request(_ request: Request<LoginModel>)
+protocol PhotosViewModelType {
+    func requestPhotos()
 }
 
 /// define all states of view.
-enum LoginViewModelState {
-    case show([LoginModel])
+enum PhotosViewModelState {
+    case show([PhotosModel])
     case error(String)
 }
 
-class LoginViewModel {
+class PhotosViewModel {
     
     @Published var isLoading = false
     /// define immutable `stateDidUpdate` property so that subscriber can only read from it.
@@ -28,22 +28,23 @@ class LoginViewModel {
     // MARK: - Private Properties
     
     private var cancellables: [AnyCancellable] = []
-    private let useCase: LoginUseCaseType
-    private let stateDidUpdateSubject = PassthroughSubject<LoginViewModelState, Never>()
+    private let useCase: PhotosUseCaseType
+    private let stateDidUpdateSubject = PassthroughSubject<PhotosViewModelState, Never>()
 
     // MARK: Initializer
 
-    init(useCase: LoginUseCaseType) {
+    init(useCase: PhotosUseCaseType) {
         self.useCase = useCase
     }
 }
 
-extension LoginViewModel: LoginViewModelType {
+extension PhotosViewModel: PhotosViewModelType {
    
-    func request(_ request: Request<LoginModel>){
+    func requestPhotos(){
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
         isLoading = true
+        let request = Request.photosRequest()
         useCase.request(request)
             .sink { [weak self] result in
                 guard let `self` = self else { return }
