@@ -10,7 +10,7 @@ import Combine
 import Foundation
 
 protocol PhotosUseCaseType {
-    func request(_ request: Request) -> AnyPublisher<Result<PhotosModel, APIError>, Never>
+    func request(_ request: Request) -> AnyPublisher<Result<[PhotosModel], APIError>, Never>
 }
 
 class PhotosUseCase {
@@ -28,7 +28,7 @@ class PhotosUseCase {
 // MARK: - Extension
 
 extension PhotosUseCase: PhotosUseCaseType {
-    func request(_ request: Request) -> AnyPublisher<Result<PhotosModel, APIError>, Never> {
+    func request(_ request: Request) -> AnyPublisher<Result<[PhotosModel], APIError>, Never> {
         return apiClient
             .execute(request)
             .subscribe(on: Scheduler.backgroundWorkScheduler)

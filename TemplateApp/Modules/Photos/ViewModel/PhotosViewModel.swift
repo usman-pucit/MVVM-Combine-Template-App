@@ -15,7 +15,7 @@ protocol PhotosViewModelType {
 
 /// define all states of view.
 enum PhotosViewModelState {
-    case show([PhotosModel])
+    case show([PhotoRowViewModel])
     case error(String)
 }
 
@@ -50,12 +50,20 @@ extension PhotosViewModel: PhotosViewModelType {
                 guard let `self` = self else { return }
                 self.isLoading = false
                 switch result {
-                case .success(let value):
-                    self.stateDidUpdateSubject.send(.show([value]))
+                case .success(let photos):
+                    let photoRows = photos.map(self.makePhotoRowViewModel(with:))
+                    self.stateDidUpdateSubject.send(.show(photoRows))
                 case .failure(let error):
                     self.stateDidUpdateSubject.send(.error(error.localizedDescription))
                 }
             }.store(in: &cancellables)
     }
     
+}
+
+extension PhotosViewModel{
+    
+    private func makePhotoRowViewModel(with photoObject: PhotosModel)-> PhotoRowViewModel{
+        return .init(id: photoObject.id ?? 0, album: "Album# \(photoObject.albumId ?? 0)", titleInfo: photoObject.title ?? "" , imageURL: photoObject.url ?? "", thumbnailUrl: photoObject.thumbnailUrl ?? "")
+    }
 }

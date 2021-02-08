@@ -10,23 +10,27 @@ import Foundation
 
 struct PhotosModel: Codable {
     
-    // MARK: - Model Keys
-    
-    enum CodingKeys: String, CodingKey{
-        case value1
-        case value2
+    let albumId : Int?
+    let id : Int?
+    let title : String?
+    let url : String?
+    let thumbnailUrl : String?
+
+    enum CodingKeys: String, CodingKey {
+
+        case albumId = "albumId"
+        case id = "id"
+        case title = "title"
+        case url = "url"
+        case thumbnailUrl = "thumbnailUrl"
     }
-    
-    // MARK: - Model Variables
-    
-    var value1: String?
-    var value2: String?
-    
-    // MARK: - Model mapping
-    
+
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        value1 = try values.decodeIfPresent(String.self, forKey: .value1)
-        value2 = try values.decodeIfPresent(String.self, forKey: .value2)
+        albumId = try values.decodeIfPresent(Int.self, forKey: .albumId)
+        id = try values.decodeIfPresent(Int.self, forKey: .id)
+        title = try values.decodeIfPresent(String.self, forKey: .title)
+        url = try values.decodeIfPresent(String.self, forKey: .url)
+        thumbnailUrl = try values.decodeIfPresent(String.self, forKey: .thumbnailUrl)
     }
 }
