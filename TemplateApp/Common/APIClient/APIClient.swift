@@ -16,29 +16,23 @@ enum APIError: Error {
 
 protocol APIClientType{
     @discardableResult
-    func execute<T>(_ request: Request) -> AnyPublisher<Result<[T], APIError>, Never> where T: Decodable
+    func execute<T>(_ request: Request) -> AnyPublisher<Result<T, APIError>, Never> where T: Decodable
 }
 
 class APIClient: APIClientType{
     // MARK: - Function
     
     @discardableResult
-    func execute<T>(_ request: Request) -> AnyPublisher<Result<[T], APIError>, Never> where T : Decodable {
+    func execute<T>(_ request: Request) -> AnyPublisher<Result<T, APIError>, Never> where T : Decodable {
         guard let request = request.request else {
             return .just(.failure(.networkError))
         }
         
         return URLSession.shared.dataTaskPublisher(for: request)
         .map(\.data)
-        .decode(type: [T].self, decoder: JSONDecoder())
-        .map { response -> Result<[T], APIError> in
-            if let result = response as? [T]{
-                return .success(result)
-            }else{
-                return .failure(.networkError)
-            }
-        }
-        .catch ({ error -> AnyPublisher<Result<[T], APIError>, Never> in
+        .decode(type: T.self, decoder: JSONDecoder())
+        .map {.success($0)}
+        .catch ({ error -> AnyPublisher<Result<T, APIError>, Never> in
             return .just(.failure(APIError.unknown(error.localizedDescription)))
         })
         .eraseToAnyPublisher()

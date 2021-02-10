@@ -114,6 +114,7 @@
 		18B9AE2425D184B90009F5A1 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				18D2167625D06219006CB52B /* APIClient */,
 				18B9AE2525D184C60009F5A1 /* Extensions */,
 			);
 			path = Common;
@@ -131,7 +132,6 @@
 		18D2166025D061A1006CB52B /* Photos */ = {
 			isa = PBXGroup;
 			children = (
-				18D2167625D06219006CB52B /* APIClient */,
 				18D2167125D06219006CB52B /* Model */,
 				18D2167E25D06219006CB52B /* UseCase */,
 				18D2167325D06219006CB52B /* View */,
